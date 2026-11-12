@@ -17,7 +17,9 @@ const App = () => {
   const [trips, setTrips] = useState([]);
   const [destinations, setDestinations] = useState([]);
   const [user, setUser] = useState([]);
-  const API_URL = import.meta.env.PROD ? "{YOUR_SERVER_URL}" : "/api";
+  const API_URL = import.meta.env.PROD
+    ? import.meta.env.VITE_API_URL || "https://server-sime.onrender.com"
+    : "/api";
 
   useEffect(() => {
     const getUser = async () => {
