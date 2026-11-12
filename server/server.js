@@ -16,14 +16,6 @@ import authRoutes from "./routes/auth.js";
 const app = express();
 app.set("trust proxy", 1);
 
-app.use(
-  session({
-    secret: "codepath",
-    resave: false,
-    saveUninitialized: true,
-  }),
-);
-
 // middleware
 app.use(express.json());
 app.use(
@@ -34,18 +26,19 @@ app.use(
   }),
 );
 
-app.use(passport.initialize());
 app.use(
   session({
-    secret: "codepath",
+    secret: process.env.SESSION_SECRET || "codepath",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       sameSite: "none",
       secure: true,
     },
   }),
 );
+app.use(passport.initialize());
+app.use(passport.session());
 passport.use(GitHub);
 
 passport.serializeUser((user, done) => {
